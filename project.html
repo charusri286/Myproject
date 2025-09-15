@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Online Quiz</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f9f9f9;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      margin: 0;
+    }
+    .container {
+      background: white;
+      padding: 30px;
+      border-radius: 10px;
+      box-shadow: 0 3px 10px rgba(0,0,0,0.2);
+      width: 400px;
+    }
+    h1 {
+      text-align: center;
+    }
+    .question {
+      font-weight: bold;
+      margin-bottom: 10px;
+    }
+    .options label {
+      display: block;
+      margin: 8px 0;
+    }
+    button {
+      background: #333;
+      color: white;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      margin-top: 15px;
+    }
+    button:hover {
+      background: #555;
+    }
+    .result {
+      margin-top: 20px;
+      font-size: 18px;
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <h1>Online Quiz</h1>
+    <div id="quiz"></div>
+    <button onclick="submitQuiz()">Submit</button>
+    <div class="result" id="result"></div>
+  </div>
+
+  <script>
+    const quizData = [
+      {
+        question: "What is the capital of India?",
+        options: ["Delhi", "Mumbai", "Kolkata", "Chennai"],
+        answer: "Delhi"
+      },
+      {
+        question: "Which language is widely used for AI?",
+        options: ["Python", "C", "Java", "Ruby"],
+        answer: "Python"
+      },
+      {
+        question: "Who is the father of C language?",
+        options: ["Bjarne Stroustrup", "James Gosling", "Dennis Ritchie", "Guido van Rossum"],
+        answer: "Dennis Ritchie"
+      },
+      {
+        question: "What is 5 + 3?",
+        options: ["5", "8", "10", "7"],
+        answer: "8"
+      }
+    ];
+
+    const quizContainer = document.getElementById("quiz");
+    const resultContainer = document.getElementById("result");
+
+    function loadQuiz() {
+      let quizHTML = "";
+      quizData.forEach((q, index) => {
+        quizHTML += `
+          <div class="question">${index + 1}. ${q.question}</div>
+          <div class="options">
+            ${q.options.map(opt => `
+              <label>
+                <input type="radio" name="q${index}" value="${opt}"> ${opt}
+              </label>
+            `).join("")}
+          </div>
+        `;
+      });
+      quizContainer.innerHTML = quizHTML;
+    }
+
+    function submitQuiz() {
+      let score = 0;
+      quizData.forEach((q, index) => {
+        const answer = document.querySelector(`input[name="q${index}"]:checked`);
+        if (answer && answer.value === q.answer) {
+          score++;
+        }
+      });
+      resultContainer.innerHTML = `You scored ${score} out of ${quizData.length}!`;
+    }
+
+    loadQuiz();
+  </script>
+</body>
+</html>
